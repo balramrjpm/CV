@@ -1317,3 +1317,120 @@ p {
         box-shadow: none;
     }
 }
+
+/* ==================================================
+   AUTOMATION EMOJI FOREGROUND
+================================================== */
+
+.automation-background {
+    position: fixed;
+    inset: 0;
+
+    /*
+    Display the animation above all webpage content.
+    */
+    z-index: 9999;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    /*
+    The animation will never block buttons, links,
+    scrolling, text selection or form controls.
+    */
+    pointer-events: none;
+    user-select: none;
+
+    /*
+    Prevent the animation container from affecting layout.
+    */
+    contain: layout style paint;
+}
+
+.automation-emoji {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: block;
+
+    margin: 0;
+    padding: 0;
+
+    opacity: 0;
+
+    line-height: 1;
+
+    pointer-events: none;
+    user-select: none;
+
+    will-change: transform, opacity;
+
+    filter:
+        drop-shadow(
+            0 4px 8px rgba(23, 32, 51, 0.22)
+        );
+
+    animation-name: automation-float;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes automation-float {
+    0% {
+        opacity: 0;
+
+        transform:
+            translate3d(
+                var(--start-x),
+                calc(100vh + 100px),
+                0
+            )
+            rotate(0deg)
+            scale(var(--scale));
+    }
+
+    8% {
+        opacity: var(--opacity);
+    }
+
+    88% {
+        opacity: var(--opacity);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate3d(
+                var(--end-x),
+                -140px,
+                0
+            )
+            rotate(var(--rotation))
+            scale(var(--scale));
+    }
+}
+
+/*
+Disable the animation when the visitor has enabled
+reduced-motion accessibility preferences.
+*/
+
+@media (prefers-reduced-motion: reduce) {
+    .automation-background {
+        display: none;
+    }
+}
+
+/*
+Do not display floating emojis when printing the resume.
+*/
+
+@media print {
+    .automation-background {
+        display: none !important;
+    }
+}
